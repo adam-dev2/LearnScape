@@ -16,9 +16,9 @@ module.exports = function(passport) {
   });
 
   passport.use(new GoogleStrategy({
-    clientID: '1052138660295-6m43ttvjdv8enhh62rjc3dt4eg1qbo07.apps.googleusercontent.com',
-    clientSecret: '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',
-    callbackURL: '/auth/google/callback'
+    clientID: '',
+    clientSecret: '',
+    callbackURL: ''
   },
   async (accessToken, refreshToken, profile, done) => {
     try {

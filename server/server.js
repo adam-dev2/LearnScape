@@ -6,14 +6,15 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo');
 const connectDB = require('./utils/connectDB');
 require('./utils/passport')(passport)
+require('dotenv').config();
 
 const User = require('./models/User')
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ['GET','POST','PUT','DELETE'],
 }));
@@ -22,10 +23,10 @@ app.use(express.json());
 connectDB();
 
 app.use(session({
-    secret: 'SESSION-SECRET',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://adam222xyz:PbauxEHjkDWW7tT1@cluster0.i2sgm7s.mongodb.net/LearnScape'}),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL}),
     cookie:{
         maxAge: 1000 * 60 * 60 * 24
     }
@@ -46,7 +47,7 @@ app.get('/auth/google', passport.authenticate('google',{
 
 app.get('/auth/google/callback',passport.authenticate('google',{
     failureRedirect: '/login',
-    successRedirect: 'http://localhost:5173/'
+    successRedirect: process.env.CLIENT_URL
 }))
 
 app.get('/auth/me',(req,res) => {
