@@ -50,6 +50,13 @@ app.get('/auth/google/callback',passport.authenticate('google',{
     successRedirect: process.env.CLIENT_URL
 }))
 
+app.get('/auth/github',passport.authenticate('github',{scope:['profile','email']}));
+
+app.get('/auth/github/callback',passport.authenticate('github',{
+    failureRedirect: '/login',
+    successRedirect: process.env.CLIENT_URL
+}))
+
 app.get('/auth/me',(req,res) => {
     if(req.isAuthenticated()){
         return res.status(200).json({
