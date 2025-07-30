@@ -1,5 +1,6 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User')
+require('dotenv').config();
 
 module.exports = function(passport) {
   passport.serializeUser((user, done) => {
@@ -16,9 +17,9 @@ module.exports = function(passport) {
   });
 
   passport.use(new GoogleStrategy({
-    clientID: '',
-    clientSecret: '',
-    callbackURL: ''
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
